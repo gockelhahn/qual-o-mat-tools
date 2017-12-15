@@ -10,10 +10,6 @@ Nach dem Prinzip von [Open Data](https://de.wikipedia.org/wiki/Open_Data) sollte
 
 Alle umgewandelten Daten werden hier abgelegt: [qual-o-mat-data](https://github.com/gockelhahn/qual-o-mat-data)
 
-## Richtigkeit der Daten
-
-Trotz aller Vorsichtsmaßnahmen und Prüfungen, kann es zu Übertragungsfehlern kommen.
-
 ## Lizenz
 
-Für alle Dateien in diesem Repository gilt folgende [Lizenz](LICENSE).
+Für alle aktuellen Dateien in diesem Repository gilt folgende [Lizenz](LICENSE).
