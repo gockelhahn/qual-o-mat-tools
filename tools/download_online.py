@@ -13,7 +13,6 @@ RESULT_FILE_SUFFIX = '_result.html'
 
 # current wahlomats available online
 wom = [
-    "https://www.wahl-o-mat.de/bayern2013/",
     "https://www.wahl-o-mat.de/europawahl2014/",
     "https://www.wahl-o-mat.de/sachsen2014/",
     "https://www.wahl-o-mat.de/thueringen2014/",
@@ -27,7 +26,8 @@ wom = [
     "https://www.wahl-o-mat.de/saarland2017/",
     "https://www.wahl-o-mat.de/schleswigholstein2017/",
     "https://www.wahl-o-mat.de/nrw2017/",
-    "https://www.wahl-o-mat.de/bundestagswahl2017/"
+    "https://www.wahl-o-mat.de/bundestagswahl2017/",
+    "https://www.wahl-o-mat.de/bayern2018/"
 ]
 
 

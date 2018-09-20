@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -i
 #
 # extract opinions from pdf versions
 #
@@ -24,7 +24,7 @@ SCRIPT_DIR="$(cd "`dirname "$0"`" && pwd)"
 PDF_DIR="$SCRIPT_DIR/pdf"
 TEMPLATE_DIR="$(cd "$SCRIPT_DIR"/template && pwd)"
 
-( ! which pdf2htmlEX &>/dev/null) && echo "ERROR: Command \"pdf2htmlEX\" not available. Abort!" >&2 && exit 1
+( ! which pdf2htmlEX &>/dev/null && ! alias pdf2htmlEX &>/dev/null) && echo "ERROR: Command \"pdf2htmlEX\" not available. Abort!" >&2 && exit 1
 ( ! which convert &>/dev/null) && echo "ERROR: Command \"convert\" not available. Abort!" >&2 && exit 1
 ( ! which gocr &>/dev/null) && echo "ERROR: Command \"gocr\" not available. Abort!" >&2 && exit 1
 ( ! which sed &>/dev/null) && echo "ERROR: Command \"sed\" not available. Abort!" >&2 && exit 1
