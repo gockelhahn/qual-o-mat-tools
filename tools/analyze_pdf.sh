@@ -184,7 +184,6 @@ do
             # extract opinion on dedicated position
             opinion="`echo "$opinions"| sed -n "$(( $scounter + 1 ))p" | head -c $(( $pcounter + 1 )) | tail -c 1`"
             # replace tempate placeholder with extracted data and write json file
-            echo -n "  " >> "$result_opinion"
             cat "$TEMPLATE_DIR/opinion.json" |\
             sed "s|T_OCOUNTER|$ocounter|g" |\
             sed "s|T_PARTY|$pcounter|g" |\
