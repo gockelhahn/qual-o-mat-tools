@@ -27,7 +27,8 @@ wom = [
     "https://www.wahl-o-mat.de/schleswigholstein2017/",
     "https://www.wahl-o-mat.de/nrw2017/",
     "https://www.wahl-o-mat.de/bundestagswahl2017/",
-    "https://www.wahl-o-mat.de/bayern2018/"
+    "https://www.wahl-o-mat.de/bayern2018/",
+    "https://www.wahl-o-mat.de/hessen2018/"
 ]
 
 

@@ -26,6 +26,7 @@ wget $WGET_OPTS "https://www.wahl-o-mat.de/bundestagswahl2017/Positionsvergleich
 wget $WGET_OPTS "https://www.wahl-o-mat.de/europawahl2014/PositionsvergleichEuropawahl2014.pdf" -O "PositionsvergleichEuropawahl2014.pdf"
 wget $WGET_OPTS "https://www.wahl-o-mat.de/hamburg2011/PositionsvergleichHamburg2011.pdf" -O "PositionsvergleichHamburg2011.pdf"
 wget $WGET_OPTS "https://www.wahl-o-mat.de/hamburg2015/PositionsvergleichHamburg2015.pdf" -O "PositionsvergleichHamburg2015.pdf"
+wget $WGET_OPTS "https://www.wahl-o-mat.de/hessen2018/PositionsvergleichHessen2018.pdf" -O "PositionsvergleichHessen2018.pdf"
 wget $WGET_OPTS "https://www.wahl-o-mat.de/niedersachsen2013/PositionsvergleichNiedersachsen2013.pdf" -O "PositionsvergleichNiedersachsen2013.pdf"
 wget $WGET_OPTS "https://www.wahl-o-mat.de/nrw2012/PositionsvergleichNordrheinWestfalen2012.pdf" -O "PositionsvergleichNordrheinWestfalen2012.pdf"
 wget $WGET_OPTS "https://www.wahl-o-mat.de/nrw2017/PositionsvergleichNordrheinWestfalen2017.pdf" -O "PositionsvergleichNordrheinWestfalen2017.pdf"
