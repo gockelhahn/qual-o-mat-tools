@@ -29,7 +29,8 @@ wom = [
     "https://www.wahl-o-mat.de/bundestagswahl2017/",
     "https://www.wahl-o-mat.de/bayern2018/",
     "https://www.wahl-o-mat.de/hessen2018/",
-    "https://www.wahl-o-mat.de/bremen2019/"
+    "https://www.wahl-o-mat.de/bremen2019/",
+    "https://www.wahl-o-mat.de/europawahl2019/"
 ]
 
 
