@@ -5,14 +5,14 @@ import sys
 from selenium import webdriver
 
 # max parties possible to select per results page
-MAX_SELECT_PARTY = 8
+MAX_SELECT_PARTY = 99
 # directory to save files
 PROCESSING_DIR = 'online'
 PARTY_FILE_SUFFIX = '_party.html'
 RESULT_FILE_SUFFIX = '_result.html'
 
 # current wahlomats available online
-wom = [
+wom_legacy = [
     "https://www.wahl-o-mat.de/europawahl2014/",
     "https://www.wahl-o-mat.de/sachsen2014/",
     "https://www.wahl-o-mat.de/thueringen2014/",
@@ -30,7 +30,10 @@ wom = [
     "https://www.wahl-o-mat.de/bayern2018/",
     "https://www.wahl-o-mat.de/hessen2018/",
     "https://www.wahl-o-mat.de/bremen2019/",
-    "https://www.wahl-o-mat.de/europawahl2019/"
+    "https://www.wahl-o-mat.de/europawahl2019/",
+]
+wom =  [
+    "https://www.wahl-o-mat.de/saarland2017/"
 ]
 
 
@@ -74,7 +77,10 @@ driver = webdriver.Firefox()
 # general wait in seconds for find_element() to complain
 driver.implicitly_wait(3)
 
-for url in wom:
+for counter, url in enumerate(wom):
+    # fix for legacy wahlomat format
+    if url in wom_legacy:
+        MAX_SELECT_PARTY = 8
     # get last string from url
     fileprefix = url.strip("/").split("/")[-1]
     # check if files are already there and skip
@@ -97,7 +103,7 @@ for url in wom:
         except:
             break
     
-    driver.find_element_by_xpath('//*[contains(@class, "next")]').click()
+    next_page()
     # save party select page to process later
     save_page(fileprefix + PARTY_FILE_SUFFIX)
     party_count = len(get_parties())

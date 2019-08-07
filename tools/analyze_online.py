@@ -13,6 +13,10 @@ PROCESSING_DIR = 'online'
 PARTY_FILE_SUFFIX = '_party.html'
 RESULT_FILE_SUFFIX = '_result.html'
 
+wom_newformat = [
+    "brandenburg2019",
+    "sachsen2019"
+]
 
 def clean(text, replace_quotes=False):
     # remove multiple whitespaces
@@ -64,6 +68,9 @@ for f in files:
             found_wom += [prefix]
 
 for online in found_wom:
+    if online in wom_newformat:
+        MAX_SELECT_PARTY = 99
+    
     # json objects to fill
     parties = []
     statements = []
@@ -77,6 +84,8 @@ for online in found_wom:
     result_pages = len(comment_tree.xpath('//html'))
     result_parties = party_tree.xpath('//ul[contains(@class, "parteien_list")]/li')
     result_comments = comment_tree.xpath('//ul[contains(@class, "votum_list") and contains(@class, "on")]//li')
+    if online in wom_newformat:
+        result_comments = comment_tree.xpath('//div[contains(@class, "wom-tabs-panel") and not(contains(@class, "active"))]//ul[contains(@class, "wom-answer-panel")]//li')
     result_statements = comment_tree.xpath('//ul[contains(@class, "thesen_box")]//li')
     result_statements = result_statements[:len(result_statements)//result_pages]
     
@@ -124,8 +133,13 @@ for online in found_wom:
         statement = comment_cnt%len(result_statements)
         # find comment
         text = comment.xpath(".//div//p/text()")
+        if online in wom_newformat:
+            text = comment.xpath(".//div//blockquote//p//text()")
         if len(text) == 0:
             text = comment.xpath(".//div//blockquote/text()")
+            if online in wom_newformat:
+                print('Something seems missing. Exit.')
+                sys.exit(1)
         # there can be multiple p blocks with comments, so join them before
         text = clean(' '.join(text), True)
         # get opinion by matching class
