@@ -34,7 +34,8 @@ wom_legacy = [
 ]
 wom =  [
     "https://www.wahl-o-mat.de/brandenburg2019/",
-    "https://www.wahl-o-mat.de/sachsen2019/"
+    "https://www.wahl-o-mat.de/sachsen2019/",
+    "https://www.wahl-o-mat.de/thueringen2019/"
 ]
 
 

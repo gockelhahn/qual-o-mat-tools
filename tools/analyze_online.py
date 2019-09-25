@@ -15,7 +15,8 @@ RESULT_FILE_SUFFIX = '_result.html'
 
 wom_newformat = [
     "brandenburg2019",
-    "sachsen2019"
+    "sachsen2019",
+    "thueringen2019"
 ]
 
 def clean(text, replace_quotes=False):
