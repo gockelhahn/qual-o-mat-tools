@@ -5,13 +5,13 @@
 
 WGET_OPTS="--no-verbose --no-clobber"
 
-SCRIPT_DIR="$(cd "`dirname "$0"`" && pwd)"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 [ -z "$SCRIPT_DIR" ] && echo "ERROR: Script directory could not be detected. Abort!" >&2 && exit 1
 
 ( ! which wget &>/dev/null) && echo "ERROR: Command \"wget\" not available. Abort!" >&2 && exit 1
 
 # download
-cd "$SCRIPT_DIR/offline"
+cd "$SCRIPT_DIR/offline" || exit 1
 wget $WGET_OPTS "https://www.wahl-o-mat.de/bw2006/wahlomat.zip" -O "WahlomatOfflineBadenWuerttemberg2006.zip"
 wget $WGET_OPTS "https://www.bpb.de/system/files/datei/wahlomat-bw11.zip" -O "WahlomatOfflineBadenWuerttemberg2011.zip"
 wget $WGET_OPTS "https://www.wahl-o-mat.de/bayern2003/wahlomat.zip" -O "WahlomatOfflineBayern2003.zip"
@@ -47,8 +47,7 @@ wget $WGET_OPTS "https://www.wahl-o-mat.de/schleswigholstein2012/wahlomat.zip" -
 wget $WGET_OPTS "https://www.wahl-o-mat.de/thueringen2014/wahlomat.zip" -O "WahlomatOfflineThueringen2014.zip"
 
 # check if downloaded files have correct hash (have not been changed)
-sha256sum --quiet --strict --check offline.sha256sum
-if [ "$?" -ne 0 ]
+if ! sha256sum --quiet --strict --check offline.sha256sum
 then
     echo "ERROR: Checksum failed. Something seems odd. Please check the above messages!" >&2
     exit 1

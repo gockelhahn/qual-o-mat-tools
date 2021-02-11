@@ -5,15 +5,15 @@
 
 WGET_OPTS="--no-verbose --no-clobber"
 
-SCRIPT_DIR="$(cd "`dirname "$0"`" && pwd)"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 [ -z "$SCRIPT_DIR" ] && echo "ERROR: Script directory could not be detected. Abort!" >&2 && exit 1
 
 ( ! which wget &>/dev/null) && echo "ERROR: Command \"wget\" not available. Abort!" >&2 && exit 1
 
 # download
-cd "$SCRIPT_DIR/pdf"
+cd "$SCRIPT_DIR/pdf" || exit 1
 wget $WGET_OPTS "https://www.wahl-o-mat.de/bw2011/PositionsvergleichBadenWuerttemberg2011.pdf" -O "PositionsvergleichBadenWuerttemberg2011.pdf"
-wget $WGET_OPTS "https://www.wahl-o-mat.de/bw2016/PositionsvergleichBadenWuerttemberg2016.pdf" -O "PositionsvergleichBadenWuerttemberg2016.pdf"
+wget $WGET_OPTS "https://www.wahl-o-mat.de/bw2021/PositionsVergleichBadenWuerttemberg2021.pdf" -O "PositionsVergleichBadenWuerttemberg2021.pdf"
 wget $WGET_OPTS "https://www.wahl-o-mat.de/bayern2013/PositionsvergleichBayern2013.pdf" -O "PositionsvergleichBayern2013.pdf"
 wget $WGET_OPTS "https://www.wahl-o-mat.de/bayern2018/PositionsvergleichBayern2018.pdf" -O "PositionsvergleichBayern2018.pdf"
 wget $WGET_OPTS "https://web.archive.org/web/20111216080542/http://www.wahl-o-mat.de/berlin2011/PositionsvergleichBerlin2011.pdf" -O "PositionsvergleichBerlin2011.pdf"
@@ -36,6 +36,7 @@ wget $WGET_OPTS "https://www.wahl-o-mat.de/nrw2012/PositionsvergleichNordrheinWe
 wget $WGET_OPTS "https://www.wahl-o-mat.de/nrw2017/PositionsvergleichNordrheinWestfalen2017.pdf" -O "PositionsvergleichNordrheinWestfalen2017.pdf"
 wget $WGET_OPTS "https://www.wahl-o-mat.de/rlp2011/PositionsvergleichRheinlandPfalz2011.pdf" -O "PositionsvergleichRheinlandPfalz2011.pdf"
 wget $WGET_OPTS "https://www.wahl-o-mat.de/rlp2016/PositionsvergleichRheinlandPfalz2016.pdf" -O "PositionsvergleichRheinlandPfalz2016.pdf"
+wget $WGET_OPTS "https://www.wahl-o-mat.de/rlp2021/PositionsVergleichRheinlandPfalz2021.pdf" -O "PositionsVergleichRheinlandPfalz2021.pdf"
 wget $WGET_OPTS "https://www.wahl-o-mat.de/saarland2012/PositionsvergleichSaarland2012.pdf" -O "PositionsvergleichSaarland2012.pdf"
 wget $WGET_OPTS "https://www.wahl-o-mat.de/saarland2017/PositionsvergleichSaarland2017.pdf" -O "PositionsvergleichSaarland2017.pdf"
 wget $WGET_OPTS "https://www.wahl-o-mat.de/sachsen2014/PositionsvergleichSachsen2014.pdf" -O "PositionsvergleichSachsen2014.pdf"
@@ -47,8 +48,7 @@ wget $WGET_OPTS "https://www.wahl-o-mat.de/thueringen2014/PositionsvergleichThue
 wget $WGET_OPTS "https://www.wahl-o-mat.de/thueringen2019/PositionsvergleichThueringen2019.pdf" -O "PositionsvergleichThueringen2019.pdf"
 
 # check if downloaded files have correct hash (have not been changed)
-sha256sum --quiet --strict --check pdf.sha256sum
-if [ "$?" -ne 0 ]
+if ! sha256sum --quiet --strict --check pdf.sha256sum
 then
     echo "ERROR: Checksum failed. Something seems odd. Please check the above messages!" >&2
     exit 1
