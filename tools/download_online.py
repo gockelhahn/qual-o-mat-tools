@@ -3,6 +3,8 @@
 import os
 import sys
 from selenium import webdriver
+from selenium.common.exceptions import NoSuchElementException
+
 
 # max parties possible to select per results page
 MAX_SELECT_PARTY = 99
@@ -32,7 +34,7 @@ wom_legacy = [
     "https://www.wahl-o-mat.de/bremen2019/",
     "https://www.wahl-o-mat.de/europawahl2019/"
 ]
-wom =  [
+wom = [
     "https://www.wahl-o-mat.de/brandenburg2019/",
     "https://www.wahl-o-mat.de/sachsen2019/",
     "https://www.wahl-o-mat.de/thueringen2019/",
@@ -41,13 +43,15 @@ wom =  [
 
 
 def get_parties():
-    return driver.find_elements_by_xpath('//ul[contains(@class, "parteien_list")]/li')
+    return driver.find_elements_by_xpath(
+        '//ul[contains(@class, "parteien_list")]/li')
 
 
-def select_parties(i):
+def select_parties(index):
     parties = get_parties()
-    # select different parties (MAX_SELECT_PARTY) per iteration (e.g. 1-8 / 9-16 ...)
-    for party in parties[i*MAX_SELECT_PARTY:(i+1)*MAX_SELECT_PARTY]:
+    # select different parties (MAX_SELECT_PARTY)
+    # per iteration (e.g. 1-8 / 9-16 ...)
+    for party in parties[i*MAX_SELECT_PARTY:(index+1)*MAX_SELECT_PARTY]:
         party.click()
 
 
@@ -56,12 +60,13 @@ def next_page():
 
 
 def save_page(filename):
-    with open(filename,'a') as html:
+    with open(filename, 'a') as html:
         html.write(driver.page_source)
 
 
 def previous_page():
-    driver.find_element_by_xpath('//*[contains(@class, "skip")]/*[contains(@class, "previous")]').click()
+    driver.find_element_by_xpath('//*[contains(@class, "skip")]'
+                                 '/*[contains(@class, "previous")]').click()
 
 
 # check for arguments
@@ -95,15 +100,17 @@ for counter, url in enumerate(wom):
     # open url
     driver.get(url)
     # find start button and click
-    driver.find_element_by_xpath('//*[@id="bnwelcome"]/a[contains(text(), "Start")]').click()
+    driver.find_element_by_xpath('//*[@id="bnwelcome"]'
+                                 '/a[contains(text(), "Start")]').click()
     
     # click skip button as long as there is the skip button
     statement_count = 0
     while True:
         try:
             statement_count += 1
-            driver.find_element_by_xpath('//*[contains(@class, "skipper")]').click()
-        except:
+            driver.find_element_by_xpath(
+                '//*[contains(@class, "skipper")]').click()
+        except NoSuchElementException:
             break
     
     next_page()

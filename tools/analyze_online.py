@@ -6,6 +6,7 @@ import json
 from io import StringIO
 from lxml import html
 
+
 # max parties possible to select per results page
 MAX_SELECT_PARTY = 8
 # directory to save files
@@ -20,19 +21,20 @@ wom_newformat = [
     "hamburg2020"
 ]
 
-def clean(text, replace_quotes=False):
+
+def clean(t, replace_quotes=False):
     # remove multiple whitespaces
-    text = ' '.join(text.split())
+    t = ' '.join(t.split())
     if replace_quotes:
         # replace double quotes with single quote
-        text = text.replace('"', '\'')
+        t = t.replace('"', '\'')
     # replace german quotes with common quotes
-    text = text.replace('„', '"')
-    text = text.replace('”', '"')
+    t = t.replace('„', '"')
+    t = t.replace('”', '"')
     # concert html escape for & to normal &
-    text = text.replace('&amp;', '&')
+    t = t.replace('&amp;', '&')
     
-    return text
+    return t
 
 
 def open_result(filename):
@@ -49,9 +51,10 @@ def open_result(filename):
 
 
 def save_json(filename, jsonobject):
-    with open(filename,'w') as json_file:
-        json_file.write('[\n  %s\n]\n' % ',\n  '
-            .join(json.dumps(item, ensure_ascii=False, separators=(', ', ':'))
+    with open(filename, 'w') as json_file:
+        json_file.write(
+            '[\n  %s\n]\n' % ',\n  '.join(json.dumps(
+                item, ensure_ascii=False, separators=(', ', ':'))
                     for item in jsonobject))
 
 
@@ -84,24 +87,34 @@ for online in found_wom:
     comment_tree = open_result(online + RESULT_FILE_SUFFIX)
     # get all needed elements
     result_pages = len(comment_tree.xpath('//html'))
-    result_parties = party_tree.xpath('//ul[contains(@class, "parteien_list")]/li')
-    result_comments = comment_tree.xpath('//ul[contains(@class, "votum_list") and contains(@class, "on")]//li')
+    result_parties = party_tree.xpath(
+        '//ul[contains(@class, "parteien_list")]/li')
+    result_comments = comment_tree.xpath(
+        '//ul[contains(@class, "votum_list") and contains(@class, "on")]//li')
     if online in wom_newformat:
-        result_comments = comment_tree.xpath('//div[contains(@class, "wom-tabs-panel") and not(contains(@class, "active"))]//ul[contains(@class, "wom-answer-panel")]//li')
-    result_statements = comment_tree.xpath('//ul[contains(@class, "thesen_box")]//li')
-    result_statements = result_statements[:len(result_statements)//result_pages]
+        result_comments = comment_tree.xpath(
+            '//div[contains(@class, "wom-tabs-panel") '
+            'and not(contains(@class, "active"))]'
+            '//ul[contains(@class, "wom-answer-panel")]//li')
+    result_statements = comment_tree.xpath(
+        '//ul[contains(@class, "thesen_box")]//li')
+    result_statements = (
+        result_statements[:len(result_statements) // result_pages])
     
     # give some output to the user
     print('=== ' + online + ' ===')
     print(str(len(result_statements)) + ' statements found.')
     print(str(len(result_comments)) + ' comments found.')
-    print('Thus ' + str(len(result_comments)//len(result_statements)) + ' parties calculated.')
+    print('Thus ' + str(len(result_comments) // len(result_statements))
+          + ' parties calculated.')
     print(str(len(result_parties)) + ' parties found.')
     
-    #check consistency
-    if len(result_comments)%len(result_statements) != 0 or \
-            len(result_comments)//(len(result_statements)*result_pages) > MAX_SELECT_PARTY or \
-            len(result_comments)//len(result_statements) != len(result_parties):
+    # check consistency
+    if (len(result_comments) % len(result_statements) != 0 or
+            len(result_comments) //
+            (len(result_statements)*result_pages) > MAX_SELECT_PARTY or
+            len(result_comments) //
+            len(result_statements) != len(result_parties)):
         print('Something seems missing. Exit.')
         sys.exit(1)
     
@@ -113,7 +126,7 @@ for online in found_wom:
         longname = party.xpath('.//img[@title]/@title')
         longname = clean(longname[0])
         
-        parties += [{'id':party_cnt, 'name': name, 'longname': longname}]
+        parties += [{'id': party_cnt, 'name': name, 'longname': longname}]
         
         party_cnt += 1
     
@@ -124,15 +137,18 @@ for online in found_wom:
         text = statement.xpath(".//p/text()")
         text = clean(text[0])
         
-        statements += [{'id':statement_cnt, 'category':None, 'label': label, 'text': text}]
+        statements += [{'id': statement_cnt,
+                        'category': None,
+                        'label': label,
+                        'text': text}]
         
         statement_cnt += 1
     
     comment_cnt = 0
     for comment in result_comments:
         # calculate party id and statement id using current comment
-        party = comment_cnt//len(result_statements)
-        statement = comment_cnt%len(result_statements)
+        party = comment_cnt // len(result_statements)
+        statement = comment_cnt % len(result_statements)
         # find comment
         text = comment.xpath(".//div//p/text()")
         if online in wom_newformat:
@@ -145,6 +161,7 @@ for online in found_wom:
         # there can be multiple p blocks with comments, so join them before
         text = clean(' '.join(text), True)
         # get opinion by matching class
+        answer = -1
         if len(comment.xpath('.//*[contains(@class, "approved")]')) != 0:
             answer = 0
         elif len(comment.xpath('.//*[contains(@class, "negative")]')) != 0:
@@ -152,8 +169,13 @@ for online in found_wom:
         elif len(comment.xpath('.//*[contains(@class, "neutral")]')) != 0:
             answer = 2
         
-        opinions += [{'id':comment_cnt, 'party': party, 'statement': statement, 'answer': answer, 'comment': comment_cnt}]
-        comments += [{'id':comment_cnt, 'text': text}]
+        opinions += [{'id': comment_cnt,
+                      'party': party,
+                      'statement': statement,
+                      'answer': answer,
+                      'comment': comment_cnt}]
+        comments += [{'id': comment_cnt,
+                      'text': text}]
         
         comment_cnt += 1
     
