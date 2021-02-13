@@ -1,6 +1,9 @@
+# ignore IDE and virtual envs
+venv
+.idea
+.vscode
 
 # ignore pdf/zip/js/tmp files (download/processing content)
-
 *.pdf
 *.zip
 *.js

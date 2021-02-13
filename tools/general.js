@@ -20,7 +20,17 @@ for (let i = 0; i < party_count; i++) {
 // in js the array ist [statements][party]
 for (let i = 0; i < party_count; i++) {
     for (let j = 0; j < statement_count; j++) {
-	    opinion.push({id: i * statement_count + j, party: i, statement: j, answer: imported.opinion[j][i], comment: i * statement_count + j});
+        let answer = null;
+        if (parseInt(imported.opinion[j][i]) === 0) {
+            answer = 2;
+        }
+        if (parseInt(imported.opinion[j][i]) === 1) {
+            answer = 0;
+        }
+        if (parseInt(imported.opinion[j][i]) === -1) {
+            answer = 1;
+        }
+	    opinion.push({id: i * statement_count + j, party: i, statement: j, answer: answer, comment: i * statement_count + j});
     }
 }
 
