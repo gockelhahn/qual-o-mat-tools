@@ -17,6 +17,8 @@ WOM_DEF_GENERAL = 'app/definitionen/module_definition.js'
 WOM_DEF_COMMENT = 'app/definitionen/module_definition_statements.js'
 
 wom = [
+    'https://www.wahl-o-mat.de/bw2021/',
+    'https://www.wahl-o-mat.de/rlp2021/',
     'https://www.wahl-o-mat.de/sachsenanhalt2021/'
 ]
 
