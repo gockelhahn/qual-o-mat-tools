@@ -21,7 +21,8 @@ wom = [
     'https://www.wahl-o-mat.de/rlp2021/',
     'https://www.wahl-o-mat.de/sachsenanhalt2021/',
     'https://www.wahl-o-mat.de/berlin2021/',
-    'https://www.wahl-o-mat.de/mecklenburgvorpommern2021/'
+    'https://www.wahl-o-mat.de/mecklenburgvorpommern2021/',
+    'https://www.wahl-o-mat.de/bundestagswahl2021/'
 ]
 
 
