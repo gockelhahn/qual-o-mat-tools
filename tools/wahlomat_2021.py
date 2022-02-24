@@ -4,7 +4,8 @@ import io
 import json
 import os
 import subprocess
-from urllib import request
+
+import requests
 
 
 # directory to save files
@@ -17,12 +18,12 @@ WOM_DEF_GENERAL = 'app/definitionen/module_definition.js'
 WOM_DEF_COMMENT = 'app/definitionen/module_definition_statements.js'
 
 wom = [
-    'https://www.wahl-o-mat.de/bw2021/',
-    'https://www.wahl-o-mat.de/rlp2021/',
-    'https://www.wahl-o-mat.de/sachsenanhalt2021/',
-    'https://www.wahl-o-mat.de/berlin2021/',
-    'https://www.wahl-o-mat.de/mecklenburgvorpommern2021/',
-    'https://www.wahl-o-mat.de/bundestagswahl2021/',
+    'https://archiv.wahl-o-mat.de/bw2021/',
+    'https://archiv.wahl-o-mat.de/rlp2021/',
+    'https://archiv.wahl-o-mat.de/sachsenanhalt2021/',
+    'https://archiv.wahl-o-mat.de/berlin2021/',
+    'https://archiv.wahl-o-mat.de/mecklenburgvorpommern2021/',
+    'https://archiv.wahl-o-mat.de/bundestagswahl2021/',
     'https://www.wahl-o-mat.de/saarland2022/'
 ]
 
@@ -37,17 +38,12 @@ def save_json(filename, jsonobject):
 
 def download_file(url, filename, append_content='', overwrite=False):
     print('Download: {}'.format(url))
-    response = request.urlopen(url)
-    # get bytes
-    data = response.read()
-    # convert bytes to str
-    text = data.decode('utf-8')
-
-    if response.status != 200:
-        raise Exception('Status Code: {}'.format(response.status))
-
+    response = requests.get(url, allow_redirects=False)
+    response.raise_for_status()
+    if response.status_code in [301, 302]:
+        raise ValueError("Download failed. Please check URL! New redirect?")
+    text = response.text
     text += append_content
-
     if not os.path.isfile(filename) or overwrite:
         with io.open(filename, 'w', encoding='utf8') as f:
             f.write(text)
