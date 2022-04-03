@@ -89,9 +89,11 @@ for version in wom:
     with io.open(COMMENTS, 'r', encoding='utf-8') as nodeexport:
         raw = nodeexport.read()
     comments = json.loads(raw)
-    # add surrounding quotes
+    # add surrounding quotes and replace 0xa0 and 0xad
     for c in comments:
-        c['text'] = '"{}"'.format(c['text'])
+        c['text'] = (
+            '"{}"'.format(c['text'].replace(u'\xa0', ' ').replace(u'\xad', ''))
+        )
     save_json(os.path.join(fileprefix, COMMENTS), comments)
 
     # call nodejs to give back party.json / opinion.json / statements.json
