@@ -24,9 +24,10 @@ wom = [
     'https://archiv.wahl-o-mat.de/berlin2021/',
     'https://archiv.wahl-o-mat.de/mecklenburgvorpommern2021/',
     'https://archiv.wahl-o-mat.de/bundestagswahl2021/',
-    'https://www.wahl-o-mat.de/saarland2022/',
-    'https://www.wahl-o-mat.de/schleswigholstein2022/',
-    'https://www.wahl-o-mat.de/nordrheinwestfalen2022/'
+    'https://archiv.wahl-o-mat.de/saarland2022/',
+    'https://archiv.wahl-o-mat.de/schleswigholstein2022/',
+    'https://archiv.wahl-o-mat.de/nordrheinwestfalen2022/',
+    'https://www.wahl-o-mat.de/niedersachsen2022/'
 ]
 
 
